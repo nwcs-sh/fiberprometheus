@@ -1,4 +1,4 @@
-module github.com/ansrivas/fiberprometheus/v2
+module github.com/nwcs-sh/fiberprometheus/v3
 
 go 1.25.0
 
