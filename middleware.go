@@ -27,9 +27,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/middleware/adaptor"
-	"github.com/gofiber/fiber/v2/utils"
+	"github.com/gofiber/fiber/v3"
+	"github.com/gofiber/fiber/v3/middleware/adaptor"
+	"github.com/gofiber/utils/v2"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -189,10 +189,9 @@ func NewWithDefaultRegistry(serviceName string) *FiberPrometheus {
 func (ps *FiberPrometheus) RegisterAt(app fiber.Router, url string, handlers ...fiber.Handler) {
 	ps.defaultURL = url
 
-	h := append(handlers, adaptor.HTTPHandler(promhttp.HandlerFor(ps.gatherer, promhttp.HandlerOpts{
+	app.Get(ps.defaultURL, adaptor.HTTPHandler(promhttp.HandlerFor(ps.gatherer, promhttp.HandlerOpts{
 		EnableOpenMetrics: true,
 	})))
-	app.Get(ps.defaultURL, h...)
 }
 
 // SetSkipPaths allows to set the paths that should be skipped from the metrics
@@ -216,7 +215,7 @@ func (ps *FiberPrometheus) SetIgnoreStatusCodes(codes []int) {
 }
 
 // Middleware is the actual default middleware implementation
-func (ps *FiberPrometheus) Middleware(ctx *fiber.Ctx) error {
+func (ps *FiberPrometheus) Middleware(ctx fiber.Ctx) error {
 	// Retrieve the request method
 	method := utils.CopyString(ctx.Method())
 
@@ -291,7 +290,7 @@ func (ps *FiberPrometheus) Middleware(ctx *fiber.Ctx) error {
 	// Observe the Request Duration
 	elapsed := float64(time.Since(start).Nanoseconds()) / 1e9
 
-	traceID := trace.SpanContextFromContext(ctx.UserContext()).TraceID()
+	traceID := trace.SpanContextFromContext(ctx.Context()).TraceID()
 	histogram := ps.requestDuration.WithLabelValues(statusCode, method, routePath)
 
 	if traceID.IsValid() {
@@ -315,3 +314,5 @@ func normalizePath(routePath string) string {
 	}
 	return normalized
 }
+
+// fiber:context-methods migrated
