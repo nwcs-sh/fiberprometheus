@@ -1133,5 +1133,3 @@ func Benchmark_Middleware_Parallel(b *testing.B) {
 		}
 	})
 }
-
-// fiber:context-methods migrated

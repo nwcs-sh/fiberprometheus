@@ -314,5 +314,3 @@ func normalizePath(routePath string) string {
 	}
 	return normalized
 }
-
-// fiber:context-methods migrated
