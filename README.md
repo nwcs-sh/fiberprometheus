@@ -6,7 +6,7 @@
 
 Prometheus middleware for [Fiber](https://github.com/gofiber/fiber).
 
-**Note: Requires Go 1.22 and above**
+**Note: Requires Go 1.25 and above**
 
 ![Release](https://img.shields.io/github/release/ansrivas/fiberprometheus.svg)
 [![Discord](https://img.shields.io/badge/discord-join%20channel-7289DA)](https://gofiber.io/discord)
@@ -22,21 +22,21 @@ http_request_duration_seconds
 http_requests_in_progress_total
 ```
 
-### Install v2
+### Install v3
 
 ```console
-go get -u github.com/gofiber/fiber/v2
-go get -u github.com/ansrivas/fiberprometheus/v2
+go get -u github.com/gofiber/fiber/v3
+go get -u github.com/ansrivas/fiberprometheus/v3
 ```
 
-### Example using v2
+### Example using v3
 
 ```go
 package main
 
 import (
-  "github.com/ansrivas/fiberprometheus/v2"
-  "github.com/gofiber/fiber/v2"
+  "github.com/ansrivas/fiberprometheus/v3"
+  "github.com/gofiber/fiber/v3"
 )
 
 func main() {
